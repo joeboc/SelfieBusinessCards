@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>Selfie Business Card</title>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+        <style>
+        :root { --bg:#0b0b0c; --panel:#16171a; --ink:#f5f7fa; --muted:#9aa1ab; --border:#202226; }
+
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: Inter, system-ui, Segoe UI, Roboto, Arial; background: var(--bg); color: var(--ink); }
+        header { padding: 16px; text-align: center; border-bottom: 1px solid var(--border); }
+        header h1 { margin: 0; font-size: 20px; }
+        header p { margin: 6px 0 0; color: var(--muted); font-size: 13px; }
+
+        main { max-width: 1000px; margin: 0 auto; padding: 16px; display: grid; gap: 12px; grid-template-columns: 1fr; }
+        @media (min-width: 980px) { main { grid-template-columns: 360px 1fr; } }
+
+        .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 14px; }
+        .panel h2 { margin: 0 0 10px; font-size: 14px; letter-spacing: .02em; color: #d4dae3; }
+
+        label { display: block; margin: 10px 0 6px; font-size: 12px; color: var(--muted); }
+        input, button { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid #2a2c31; background: #0f1012; color: var(--ink); font: inherit; }
+        button { cursor: pointer; }
+        .row { display: grid; gap: 8px; grid-template-columns: 1fr 1fr; }
+
+        .canvas-wrap { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 12px; }
+        canvas { display: block; background: #fff; border: 1px solid #2a2c31; border-radius: 12px; margin: 0 auto; }
+        .hint { color: var(--muted); font-size: 12px; margin-top: 6px; }
+        </style>
+    </head>
+    <body>
+        <header>
+        <h1>Selfie Business Card - MVP</h1>
+        <p>We’ll build this in small steps and understand each layer.</p>
+        </header>
+
+        <main>
+            <fieldset>
+                <legend>Card Inputs</legend>
+                <label for="photo">Upload Selfie</label>
+                <input id="photo" type="file" accept="image/*">
+
+                <label for="name">Name</label>
+                <input id="name" placeholder="Fname Lname" value="Fname Lname">
+
+                <label for="title">Title</label>
+                <input id="title" placeholder="Web Developer, Software Solutions" value="Web Developer, Software Solutions">
+                
+                <label for="phone">Phone</label>
+                <input id="phone" placeholder="(555) 123-4567" value="(555) 123-4567">
+
+                <label for="email">Email</label>
+                <input id="email" placeholder= "example@email.com" value="example@email.com">
+
+                <div style="display:grid; gap:8px; grid-template-columns:1fr 1fr; margin-top:10px">
+                    <button id="apply">Apply Text</button>
+                    <button id="download">Download JPEG</button>
+                </div>
+            </fieldset>
+
+            <section class="canvas-wrap">
+                <p class="hint">
+                     Canvas (4×6 in @ 300 DPI = <strong>1200×1800 px</strong>, portrait).
+                     For landscape, use <strong>1800×1200</strong>.
+                </p>
+                <canvas id="card" width="1200" height="1800"></canvas>
+                <p class="hint">This is just a placeholder; nothing draws yet.</p>
+            </section>
+
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
+            <script>
+            console.log('Fabric version:', fabric.version);
+            </script>
+        </main>
+    </body>
+</html>
