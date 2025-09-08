@@ -1,78 +1,307 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <title>Selfie Business Card</title>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-        <style>
-        :root { --bg:#0b0b0c; --panel:#16171a; --ink:#f5f7fa; --muted:#9aa1ab; --border:#202226; }
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Selfie Business Card</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <style>
+      :root { --bg:#0b0b0c; --panel:#16171a; --ink:#f5f7fa; --muted:#9aa1ab; --border:#202226; }
+      * { box-sizing: border-box; }
+      body { margin: 0; font-family: Inter, system-ui, Segoe UI, Roboto, Arial; background: var(--bg); color: var(--ink); }
+      header { padding: 16px; text-align: center; border-bottom: 1px solid var(--border); }
+      header h1 { margin: 0; font-size: 20px; }
+      header p { margin: 6px 0 0; color: var(--muted); font-size: 13px; }
+      main { max-width: 1000px; margin: 0 auto; padding: 16px; display: grid; gap: 12px; grid-template-columns: 1fr; }
+      @media (min-width: 980px) { main { grid-template-columns: 360px 1fr; } }
+      .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 14px; }
+      .panel h2 { margin: 0 0 10px; font-size: 14px; letter-spacing: .02em; color: #d4dae3; }
+      label { display: block; margin: 10px 0 6px; font-size: 12px; color: var(--muted); }
+      input, button { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid #2a2c31; background: #0f1012; color: var(--ink); font: inherit; }
+      button { cursor: pointer; }
+      .row { display: grid; gap: 8px; grid-template-columns: 1fr 1fr; }
+      .canvas-wrap { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 12px; }
+      canvas { display: block; border: 1px solid #2a2c31; border-radius: 12px; margin: 0 auto; width: 420px; height: auto; background: transparent; }
+      .canvas-container canvas.lower-canvas { background: #fff; }
+      .canvas-container canvas.upper-canvas { background: transparent !important; }
+      .hint { color: var(--muted); font-size: 12px; margin-top: 6px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Selfie Business Card - MVP</h1>
+      <p>We’ll build this in small steps and understand each layer.</p>
+    </header>
 
-        * { box-sizing: border-box; }
-        body { margin: 0; font-family: Inter, system-ui, Segoe UI, Roboto, Arial; background: var(--bg); color: var(--ink); }
-        header { padding: 16px; text-align: center; border-bottom: 1px solid var(--border); }
-        header h1 { margin: 0; font-size: 20px; }
-        header p { margin: 6px 0 0; color: var(--muted); font-size: 13px; }
+    <main>
+      <fieldset>
+        <legend>Card Inputs</legend>
 
-        main { max-width: 1000px; margin: 0 auto; padding: 16px; display: grid; gap: 12px; grid-template-columns: 1fr; }
-        @media (min-width: 980px) { main { grid-template-columns: 360px 1fr; } }
+        <label for="photo">Upload / Take Selfie</label>
+        <input id="photo" type="file" accept="image/*" capture="environment">
 
-        .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 14px; }
-        .panel h2 { margin: 0 0 10px; font-size: 14px; letter-spacing: .02em; color: #d4dae3; }
+        <label for="name">Name</label>
+        <input id="name" placeholder="Fname Lname" value="Fname Lname">
 
-        label { display: block; margin: 10px 0 6px; font-size: 12px; color: var(--muted); }
-        input, button { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid #2a2c31; background: #0f1012; color: var(--ink); font: inherit; }
-        button { cursor: pointer; }
-        .row { display: grid; gap: 8px; grid-template-columns: 1fr 1fr; }
+        <label for="title">Title</label>
+        <input id="title" placeholder="Web Developer, Software Solutions" value="Web Developer, Software Solutions">
+        
+        <label for="phone">Phone</label>
+        <input id="phone" placeholder="(555) 123-4567" value="(555) 123-4567">
 
-        .canvas-wrap { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 12px; }
-        canvas { display: block; background: #fff; border: 1px solid #2a2c31; border-radius: 12px; margin: 0 auto; }
-        .hint { color: var(--muted); font-size: 12px; margin-top: 6px; }
-        </style>
-    </head>
-    <body>
-        <header>
-        <h1>Selfie Business Card - MVP</h1>
-        <p>We’ll build this in small steps and understand each layer.</p>
-        </header>
+        <label for="email">Email</label>
+        <input id="email" placeholder="example@email.com" value="example@email.com">
 
-        <main>
-            <fieldset>
-                <legend>Card Inputs</legend>
-                <label for="photo">Upload Selfie</label>
-                <input id="photo" type="file" accept="image/*">
+        <div style="display:grid; gap:8px; grid-template-columns:1fr 1fr; margin-top:10px">
+          <button id="apply">Apply Text</button>
+          <button id="download">Download JPEG</button>
+        </div>
 
-                <label for="name">Name</label>
-                <input id="name" placeholder="Fname Lname" value="Fname Lname">
+        <label for="accentColor" style="margin-top:12px">Accent color</label>
+        <input id="accentColor" type="color" value="#2E86FF">
 
-                <label for="title">Title</label>
-                <input id="title" placeholder="Web Developer, Software Solutions" value="Web Developer, Software Solutions">
-                
-                <label for="phone">Phone</label>
-                <input id="phone" placeholder="(555) 123-4567" value="(555) 123-4567">
+        <label style="display:flex;align-items:center;gap:8px;margin-top:10px">
+          <input id="showGuides" type="checkbox"> Show print guides (safe area)
+        </label>
 
-                <label for="email">Email</label>
-                <input id="email" placeholder= "example@email.com" value="example@email.com">
+        <label style="display:flex;align-items:center;gap:8px;margin-top:10px">
+          <input id="quickSave" type="checkbox"> Auto export after adding a photo
+        </label>
 
-                <div style="display:grid; gap:8px; grid-template-columns:1fr 1fr; margin-top:10px">
-                    <button id="apply">Apply Text</button>
-                    <button id="download">Download JPEG</button>
-                </div>
-            </fieldset>
+        <div class="row" style="margin-top:10px">
+          <button id="openCamera" type="button">Open Camera</button>
+          <button id="snap" type="button" disabled>Snap</button>
+        </div>
 
-            <section class="canvas-wrap">
-                <p class="hint">
-                     Canvas (4×6 in @ 300 DPI = <strong>1200×1800 px</strong>, portrait).
-                     For landscape, use <strong>1800×1200</strong>.
-                </p>
-                <canvas id="card" width="1200" height="1800"></canvas>
-                <p class="hint">This is just a placeholder; nothing draws yet.</p>
-            </section>
+        <div id="camWrap" style="display:none; margin-top:8px">
+          <video id="cam" playsinline muted style="width:100%; border:1px solid #2a2c31; border-radius:10px"></video>
+        </div>
+      </fieldset>
 
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
-            <script>
-            console.log('Fabric version:', fabric.version);
-            </script>
-        </main>
-    </body>
+      <section class="canvas-wrap">
+        <p class="hint">
+          Canvas (4×6 in @ 300 DPI = <strong>1200×1800 px</strong>, portrait).
+          For landscape, use <strong>1800×1200</strong>.
+        </p>
+        <canvas id="card" width="1200" height="1800"></canvas>
+        <p class="hint">This is just a placeholder; nothing draws yet.</p>
+      </section>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
+      <script>
+        window.addEventListener('load', () => {
+          const W = 1200, H = 1800;
+          const PAD = 100;
+          const $ = (id) => document.getElementById(id);
+
+          const canvas = new fabric.Canvas('card', { preserveObjectStacking: true });
+
+          const bg = new fabric.Rect({ left: 0, top: 0, width: W, height: H, fill: '#ffffff', selectable: false, evented: false });
+          canvas.add(bg);
+
+          const ACCENT_H = Math.round(H * 0.12);
+          const accent = new fabric.Rect({ left: 0, top: H - ACCENT_H, width: W, height: ACCENT_H, fill: '#2E86FF', selectable: false });
+          canvas.add(accent);
+          accent.set({ fill: $('accentColor').value || '#2E86FF' });
+          canvas.requestRenderAll();
+
+          const SAFE = Math.round(300 / 8);
+          const guideSafe = new fabric.Rect({
+            left: SAFE, top: SAFE, width: W - SAFE * 2, height: H - SAFE * 2,
+            fill: 'transparent', stroke: '#ff6b6b', strokeWidth: 2, strokeDashArray: [8, 6],
+            selectable: false, evented: false, visible: false, excludeFromExport: true
+          });
+          canvas.add(guideSafe);
+
+          // Text block
+          const barTop = H - ACCENT_H;
+
+          const nameText = new fabric.Textbox('Fname Lname', {
+            left: PAD, top: barTop + 24, width: W - PAD * 2,
+            fontFamily: 'Inter', fontWeight: 900, fontSize: 56,
+            fill: '#ffffff', shadow: '0px 0px 4px rgba(0,0,0,0.6)'
+          });
+
+          const titleText = new fabric.Textbox('Web Developer, Software Solutions', {
+            left: PAD, top: barTop + 24 + 60, width: W - PAD * 2,
+            fontFamily: 'Inter', fontWeight: 600, fontSize: 30,
+            fill: '#eaf2ff', shadow: '0px 0px 3px rgba(0,0,0,0.5)'
+          });
+
+          const contactText = new fabric.Textbox('(555) 123-4567  •  example@email.com', {
+            left: PAD, top: barTop + 24 + 60 + 42, width: W - PAD * 2,
+            fontFamily: 'Inter', fontWeight: 600, fontSize: 26,
+            fill: '#eaf2ff', shadow: '0px 0px 3px rgba(0,0,0,0.5)'
+          });
+
+          canvas.add(nameText, titleText, contactText);
+
+          [nameText, titleText, contactText].forEach(t => {
+            t.lockScalingFlip = true;
+            t.lockRotation = true;
+          });
+
+          if (document.fonts && document.fonts.ready) {
+            document.fonts.ready.then(() => canvas.requestRenderAll());
+          }
+
+          // Controls
+          $('accentColor').addEventListener('input', (e) => {
+            accent.set({ fill: e.target.value });
+            canvas.requestRenderAll();
+          });
+
+          $('showGuides').addEventListener('change', (e) => {
+            guideSafe.visible = e.target.checked;
+            if (guideSafe.visible) canvas.bringToFront(guideSafe);
+            canvas.requestRenderAll();
+          });
+
+          document.getElementById('apply').addEventListener('click', () => {
+            nameText.text = $('name').value || '';
+            titleText.text = $('title').value || '';
+            contactText.text = `${$('phone').value || ''}  •  ${$('email').value || ''}`.trim();
+            canvas.requestRenderAll();
+          });
+
+          // Export
+          async function exportAndShareOrDownload() {
+            const dataUrl = canvas.toDataURL({ format: 'jpeg', quality: 0.95, multiplier: 2 });
+            try {
+              const res = await fetch(dataUrl);
+              const blob = await res.blob();
+              const file = new File([blob], 'business-card.jpg', { type: 'image/jpeg' });
+
+              if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                await navigator.share({ files: [file], title: 'Business Card', text: 'Made at the mixer' });
+                return;
+              }
+            } catch (err) {
+              console.log('Share unavailable, downloading instead:', err);
+            }
+            const a = document.createElement('a');
+            a.href = dataUrl;
+            a.download = 'business-card.jpg';
+            a.click();
+          }
+
+          document.getElementById('download').addEventListener('click', exportAndShareOrDownload);
+
+          // Photo Frame
+          // Frame = full safe area above the accent bar
+          const FRAME = (() => {
+            const LEFT   = SAFE;
+            const RIGHT  = W - SAFE;
+            const TOP    = SAFE;
+            const BOTTOM = barTop - SAFE;
+            const w = RIGHT - LEFT;
+            const h = BOTTOM - TOP;
+            return { x: LEFT, y: TOP, w, h, cx: LEFT + w/2, cy: TOP + h/2 };
+          })();
+
+          let photoObj = null;
+          const coverScale = (imgW, imgH, maxW, maxH) => Math.max(maxW / imgW, maxH / imgH);
+
+          function placeSelfie(file) {
+            const objectUrl = URL.createObjectURL(file);
+            fabric.Image.fromURL(objectUrl, (img) => {
+              URL.revokeObjectURL(objectUrl);
+
+              const s = coverScale(img.width, img.height, FRAME.w, FRAME.h);
+              img.set({
+                originX: 'center', originY: 'center',
+                left: FRAME.cx, top: FRAME.cy,
+                scaleX: s, scaleY: s,
+                lockRotation: true, transparentCorners: false, cornerStyle: 'circle'
+              });
+
+              img.clipPath = new fabric.Rect({
+                left: FRAME.cx, top: FRAME.cy,
+                originX: 'center', originY: 'center',
+                width: FRAME.w, height: FRAME.h,
+                rx: 24, ry: 24, absolutePositioned: true
+              });
+
+              img.setCoords();
+
+              if (photoObj) canvas.remove(photoObj);
+              photoObj = img;
+              canvas.add(img);
+
+              canvas.bringToFront(nameText);
+              canvas.bringToFront(titleText);
+              canvas.bringToFront(contactText);
+
+              canvas.requestRenderAll();
+
+              // Auto-export if toggled
+              if ($('quickSave') && $('quickSave').checked) {
+                exportAndShareOrDownload();
+              }
+            }, { crossOrigin: 'anonymous' });
+          }
+
+          $('photo').addEventListener('change', (e) => {
+            const file = e.target.files && e.target.files[0];
+            if (!file) return;
+            placeSelfie(file);
+          });
+
+          // Using Camera instead of gallery
+          let stream = null;
+          const camWrap = $('camWrap');
+          const cam = $('cam');
+          const openBtn = $('openCamera');
+          const snapBtn = $('snap');
+
+          openBtn.addEventListener('click', async () => {
+            try {
+              stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
+              cam.srcObject = stream;
+              await cam.play();
+              camWrap.style.display = 'block';
+              snapBtn.disabled = false;
+            } catch (err) {
+              console.error('Camera error:', err);
+              alert('Could not open camera. You can still use Upload Selfie.');
+            }
+          });
+
+          snapBtn.addEventListener('click', async () => {
+            if (!cam.videoWidth) return;
+
+            const off = document.createElement('canvas');
+            off.width = cam.videoWidth;
+            off.height = cam.videoHeight;
+            const octx = off.getContext('2d');
+            octx.drawImage(cam, 0, 0);
+
+            off.toBlob((blob) => {
+              if (!blob) return;
+              const f = new File([blob], 'snapshot.jpg', { type: 'image/jpeg' });
+              placeSelfie(f);
+            }, 'image/jpeg', 0.92);
+
+            // Stop camera after snapping
+            if (stream) {
+              stream.getTracks().forEach(t => t.stop());
+              stream = null;
+              camWrap.style.display = 'none';
+              snapBtn.disabled = true;
+            }
+          });
+
+          // Stop camera when page hides
+          document.addEventListener('visibilitychange', () => {
+            if (document.hidden && stream) {
+              stream.getTracks().forEach(t => t.stop());
+              stream = null;
+              camWrap.style.display = 'none';
+              snapBtn.disabled = true;
+            }
+          });
+        });
+      </script>
+    </main>
+  </body>
 </html>
