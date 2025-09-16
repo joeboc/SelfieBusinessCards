@@ -37,6 +37,7 @@
       canvas{ display:block; border:1px solid #2a2c31; border-radius:12px; margin:0 auto; width:100%; background:transparent;}
       .canvas-container canvas.lower-canvas { background: #fff; }
       .canvas-container canvas.upper-canvas { background: transparent !important; }
+      @media (max-width: 560px) {.canvas-wrap { max-width: 340px; margin-inline: auto; }}
       .hint { color: var(--muted); font-size: 12px; margin-top: 6px; }
       #photo {position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden;} /*Hide Default Inout button*/
       .preview{box-shadow: 0 10px 24px rgba(0,0,0.35);}
@@ -114,13 +115,15 @@
           const canvas = new fabric.Canvas('card', { preserveObjectStacking: true });
 
           function fitCanvas() {
-          const wrap = document.querySelector('.canvas-wrap');
-          const cssW = Math.min(wrap.clientWidth, 520);
-          const cssH = cssW * (H / W); // 1800/1200 = 1.5 (portrait)
-          canvas.setDimensions({ width: cssW, height: cssH }, { cssOnly: true });
-          canvas.calcOffset();
-        }
-
+            const wrap = document.querySelector('.canvas-wrap');
+            const isMobile = window.matchMedia('(max-width: 560px)').matches;
+            const cap = isMobile ? 340 : 520;
+            const aspect = H / W;
+            const cssW = Math.min(wrap.clientWidth, cap);
+            const cssH = Math.round(cssW * aspect);
+            canvas.setDimensions({ width: cssW, height: cssH }, { cssOnly: true });
+            canvas.calcOffset();
+            }
         // Run once and on resize
         fitCanvas();
         window.addEventListener('resize', fitCanvas);
