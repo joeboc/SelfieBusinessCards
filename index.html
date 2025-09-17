@@ -36,8 +36,9 @@
       .canvas-wrap { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: var(--pad-card); }
       canvas{ display:block; border:1px solid #2a2c31; border-radius:12px; margin:0 auto; width:100%; background:transparent;}
       .canvas-container canvas.lower-canvas { background: #fff; }
-      .canvas-container canvas.upper-canvas { background: transparent !important; }
-      @media (max-width: 560px) {.canvas-wrap { max-width: 340px; margin-inline: auto; }}
+      .canvas-container canvas.upper-canvas { background: transparent !important; }@media (max-width: 560px) {.canvas-wrap { max-width: 340px; margin-inline: auto; }}
+      @media (max-width: 560px){.canvas-wrap { padding: 8px; }.hint { font-size: 11px; }}
+      .canvas-wrap.preview{width: min(92vw, 360px);margin-inline: auto;}
       .hint { color: var(--muted); font-size: 12px; margin-top: 6px; }
       #photo {position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden;} /*Hide Default Inout button*/
       .preview{box-shadow: 0 10px 24px rgba(0,0,0.35);}
@@ -117,14 +118,40 @@
 
           function fitCanvas() {
             const wrap = document.querySelector('.canvas-wrap');
-            const isMobile = window.matchMedia('(max-width: 560px)').matches;
-            const cap = isMobile ? 340 : 520;
-            const aspect = H / W;
-            const cssW = Math.min(wrap.clientWidth, cap);
-            const cssH = Math.round(cssW * aspect);
+            const aspect = H / W; // 1800/1200 = 1.5 (portrait)
+
+            // 1) Available width inside the wrapper (already capped by CSS)
+            const maxByWidth = wrap.clientWidth; // e.g., ~360px on mobile
+
+            // 2) Available height in the *visible* viewport
+            const vpH = (window.visualViewport && window.visualViewport.height) || window.innerHeight;
+
+            // Distance from top of viewport to top of the wrapper
+            const wrapTop = wrap.getBoundingClientRect().top;
+
+            // Leave a bit of breathing room at the bottom so nothing is cut off
+            const bottomPad = 12;
+
+            // Height left for the canvas area (hint + canvas)
+            const maxByHeight = Math.max(120, vpH - wrapTop - bottomPad);
+
+            // If we sized by that height, how wide could the canvas be?
+            const widthFromHeight = Math.floor(maxByHeight / aspect);
+
+            // Final CSS width/height: obey BOTH constraints to keep it fully visible
+            const cssW = Math.max(240, Math.min(maxByWidth, widthFromHeight));
+            const cssH = Math.floor(cssW * aspect);
+
+            // ONLY change the CSS size; keep internal pixels at 1200×1800 for crisp export
             canvas.setDimensions({ width: cssW, height: cssH }, { cssOnly: true });
             canvas.calcOffset();
             }
+
+            // Run once and on resize/zoom/orientation changes
+            fitCanvas();
+            window.addEventListener('resize', fitCanvas);
+            window.visualViewport && window.visualViewport.addEventListener('resize', fitCanvas);
+
         // Run once and on resize
         fitCanvas();
         window.addEventListener('resize', fitCanvas);
