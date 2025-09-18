@@ -51,7 +51,7 @@
 
       /* generic wrapper + canvas */
       .canvas-wrap{ background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:var(--pad-card); }
-      canvas{ display:block; border:1px solid #2a2c31; border-radius:12px; margin:0 auto; width:100%; background:transparent; }
+      canvas{ display:block; border:1px solid #2a2c31; border-radius:12px; margin:0 auto; max-width:100%; height: auto; background:transparent; }
       .canvas-container canvas.lower-canvas{ background:#fff; }
       .canvas-container canvas.upper-canvas{ background:transparent !important; }
 
@@ -141,6 +141,22 @@
 
           const canvas = new fabric.Canvas('card', { preserveObjectStacking: true });
 
+          function forceFabricContainerSize(canvas, w, h){
+            // Fabric renders: <div class="canvas-container"><canvas lower/><canvas upper/></div>
+            const container = canvas.getElement().parentNode; // .canvas-container
+            if (!container) return;
+
+            container.style.width  = w + 'px';
+            container.style.height = h + 'px';
+
+            // keep both layers in sync
+            canvas.lowerCanvasEl.style.width  = w + 'px';
+            canvas.lowerCanvasEl.style.height = h + 'px';
+            canvas.upperCanvasEl.style.width  = w + 'px';
+            canvas.upperCanvasEl.style.height = h + 'px';
+            }
+
+          
           function fitCanvas(){
             const wrap = document.querySelector('.canvas-wrap');
             const aspect = H / W; // 1.5 portrait
@@ -171,6 +187,10 @@
             const cssH = Math.floor(cssW * aspect);
 
             canvas.setDimensions({ width: cssW, height: cssH }, { cssOnly: true });
+
+            // 2) also size Fabric's wrapper + both canvases (fixes “still huge”)
+            forceFabricContainerSize(canvas, cssW, cssH);
+
             canvas.calcOffset();
             }
 
