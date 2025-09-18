@@ -55,13 +55,14 @@
       .canvas-container canvas.lower-canvas{ background:#fff; }
       .canvas-container canvas.upper-canvas{ background:transparent !important; }
 
-      /* SINGLE source of truth for preview size on mobile/desktop */
-      .canvas-wrap.preview{
-        width:min(92vw, 320px);           /* adjust 320→340 if you want a bit larger */
+        /* was width: min(92vw, 340px);  — change to max-width */
+        .canvas-wrap.preview{
+        max-width: min(92vw, 340px);   /* container may be narrower, JS will cap further */
         margin-inline:auto;
-        padding:8px;                       /* tighter so hints + canvas fit */
+        padding:8px;
         box-shadow:0 10px 24px rgba(0,0,0,.35);
-      }
+        }
+
 
       .hint{ color:var(--muted); font-size:12px; margin-top:6px; }
       @media (max-width:560px){ .hint{ font-size:11px; } }
@@ -141,38 +142,45 @@
           const canvas = new fabric.Canvas('card', { preserveObjectStacking: true });
 
           function fitCanvas(){
-            const wrap = document.querySelector('.canvas-wrap'); // the preview section
-            const aspect = H / W;                                // 1.5 portrait
+            const wrap = document.querySelector('.canvas-wrap');
+            const aspect = H / W; // 1.5 portrait
 
-            // Width: whatever CSS gives the wrapper (capped by .canvas-wrap.preview)
+            // Width the wrapper can provide (bounded by CSS max-width above)
             const maxByWidth = wrap.clientWidth;
 
-            // Height: viewport minus wrapper's top, hints, and vertical padding
+            // Height we can use without forcing scroll
             const vpH = (window.visualViewport && window.visualViewport.height) || window.innerHeight;
             const wrapTop = wrap.getBoundingClientRect().top;
             const bottomPad = 10;
 
+            // Height taken by hints + wrapper padding
             const hints = wrap.querySelectorAll('.hint');
             let hintsH = 0; hints.forEach(h => hintsH += h.offsetHeight);
-
             const cs = getComputedStyle(wrap);
             const vPad = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
 
             const maxCanvasHeight = Math.max(120, vpH - wrapTop - bottomPad - hintsH - vPad);
             const widthFromHeight = Math.floor(maxCanvasHeight / aspect);
 
-            const cssW = Math.max(240, Math.min(maxByWidth, widthFromHeight));
+            // 🔒 Hard cap by viewport size (mobile vs desktop)
+            const isMobile = window.matchMedia('(max-width: 560px)').matches;
+            const CAP = isMobile ? 300 : 520;       // tweak 300 to 280/320 to taste
+
+            // Final CSS size respects wrapper, height, and our hard cap
+            const cssW = Math.max(220, Math.min(maxByWidth, widthFromHeight, CAP));
             const cssH = Math.floor(cssW * aspect);
 
-            // Preview-only resize; export remains 1200×1800
             canvas.setDimensions({ width: cssW, height: cssH }, { cssOnly: true });
             canvas.calcOffset();
-          }
+            }
+
 
           // Run once and on resize/zoom/orientation changes
           fitCanvas();
-          window.addEventListener('resize', fitCanvas);
-          if (window.visualViewport) window.visualViewport.addEventListener('resize', fitCanvas);
+        window.addEventListener('resize', fitCanvas);
+        if (window.visualViewport) window.visualViewport.addEventListener('resize', fitCanvas);
+        window.addEventListener('orientationchange', fitCanvas);
+
 
           // Background + accent
           const bg = new fabric.Rect({ left:0, top:0, width:W, height:H, fill:'#ffffff', selectable:false, evented:false });
