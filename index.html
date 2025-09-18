@@ -6,43 +6,67 @@
     <title>Selfie Business Card</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
     <style>
-      :root {
-    --gap: 10px;
-    --radius: 12px;
-    --fs-body: clamp(14px, 2.8vw, 16px);
-    --fs-h1: clamp(18px, 4.8vw, 20px);
-    --fs-hint: clamp(11px, 2.6vw, 12px);
-    --pad-page: clamp(12px, 4vw, 16px);
-    --pad-card: clamp(10px, 3.6vw, 12px);
-            }
-      :root { --bg:#0b0b0c; --panel:#16171a; --ink:#f5f7fa; --muted:#9aa1ab; --border:#202226; }
-      * { box-sizing: border-box; }
-      body { font-size: var(--fs-body); margin: 0; font-family: Inter, system-ui, Segoe UI, Roboto, Arial; background: var(--bg); color: var(--ink); }
-      header{ padding: var(--pad-page); text-align:center; border-bottom:1px solid var(--border); }
-      header h1 { margin: 0; font-size: var(--fs-h1); }
-      header p { margin: 6px 0 0; color: var(--muted); font-size: 13px; }
-      main { max-width: 860px; margin: 0 auto; padding: var(--pad-page); display: grid; gap: 12px; grid-template-columns: 1fr; }      @media (min-width: 980px) { main { grid-template-columns: 360px 1fr; } }
-      .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: var(--pad-card); }
-      .panel h2 { margin: 0 0 10px; font-size: 14px; letter-spacing: .02em; color: #d4dae3; }
-      label { display: block; margin: 10px 0 6px; font-size: 12px; color: var(--muted); }
-      .inputs label{margin: 8px 0 6px; font-size: clamp(12px, 2.6vw, 1px);}
-      input, button { width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid #2a2c31; background: #0f1012; color: var(--ink); font: inherit; }
-      button { min-height: 44px; border-radius: var(--radius); cursor: pointer; padding: 12px 14px; border-radius: 12px; border: 1px solid #2a2c31;}
-      .btn { display: inline-block; width: 100%; text-align: center; padding: 12px 14px; border-radius: 12px; border: 1px solid #2a2c31; background: #0f1012; color:var(--ink); font: inherit; cursor: pointer; }
-      .row { display: grid; gap: var(--gap); grid-template-columns: 1fr 1fr; }
-      @media (max-width: 560px){ .row { grid-template-columns: 1fr; }}
-      @media (max-width: 980px) { main{grid-template-columns: 1fr;} .preview{order: -1;}}
-      @media (max-width: 980px){ .actions{ position: sticky; bottom: 0; z-index: 5; background: linear-gradient(180deg, transparent, var(--bg) 24%); padding-top: 12px; padding-bottom: 8px; backdrop-filter: blur(4px); } }
-      .canvas-wrap { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: var(--pad-card); }
-      canvas{ display:block; border:1px solid #2a2c31; border-radius:12px; margin:0 auto; width:100%; background:transparent;}
-      .canvas-container canvas.lower-canvas { background: #fff; }
-      .canvas-container canvas.upper-canvas { background: transparent !important; }@media (max-width: 560px) {.canvas-wrap { max-width: 340px; margin-inline: auto; }}
-      @media (max-width: 560px){.canvas-wrap { padding: 8px; }.hint { font-size: 11px; }}
-      .canvas-wrap.preview{width: min(92vw, 360px);margin-inline: auto;}
-      .hint { color: var(--muted); font-size: 12px; margin-top: 6px; }
-      #photo {position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden;} /*Hide Default Inout button*/
-      .preview{box-shadow: 0 10px 24px rgba(0,0,0.35);}
-      .preview{ width: min(92vw, 340px); margin-inline: auto; box-shadow: 0 10px 24px rgba(0,0,0,0.35); }
+      :root{
+        --gap:10px;
+        --radius:12px;
+        --fs-body:clamp(14px,2.8vw,16px);
+        --fs-h1:clamp(18px,4.8vw,20px);
+        --fs-hint:clamp(11px,2.6vw,12px);
+        --pad-page:clamp(12px,4vw,16px);
+        --pad-card:clamp(10px,3.6vw,12px);
+        --bg:#0b0b0c; --panel:#16171a; --ink:#f5f7fa; --muted:#9aa1ab; --border:#202226;
+      }
+
+      *{ box-sizing:border-box; }
+      body{ font-size:var(--fs-body); margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Arial; background:var(--bg); color:var(--ink); }
+
+      header{ padding:var(--pad-page); text-align:center; border-bottom:1px solid var(--border); }
+      header h1{ margin:0; font-size:var(--fs-h1); }
+      header p{ margin:6px 0 0; color:var(--muted); font-size:13px; }
+
+      main{ max-width:860px; margin:0 auto; padding:var(--pad-page); display:grid; gap:12px; grid-template-columns:1fr; }
+      @media (min-width:980px){ main{ grid-template-columns:360px 1fr; } }
+
+      .panel{ background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:var(--pad-card); }
+      .panel h2{ margin:0 0 10px; font-size:14px; letter-spacing:.02em; color:#d4dae3; }
+
+      label{ display:block; margin:10px 0 6px; font-size:12px; color:var(--muted); }
+      .inputs label{ margin:8px 0 6px; font-size:clamp(12px,2.6vw,12px); }
+
+      input,button{ width:100%; padding:12px 14px; border-radius:12px; border:1px solid #2a2c31; background:#0f1012; color:var(--ink); font:inherit; }
+      button{ min-height:44px; border-radius:var(--radius); cursor:pointer; }
+
+      .btn{ display:inline-block; width:100%; text-align:center; padding:12px 14px; border-radius:12px; border:1px solid #2a2c31; background:#0f1012; color:var(--ink); cursor:pointer; }
+
+      .row{ display:grid; gap:var(--gap); grid-template-columns:1fr 1fr; }
+      @media (max-width:560px){ .row{ grid-template-columns:1fr; } }
+
+      @media (max-width:980px){ main{ grid-template-columns:1fr; } .preview{ order:-1; } }
+      @media (max-width:980px){
+        .actions{ position:sticky; bottom:0; z-index:5;
+          background:linear-gradient(180deg,transparent, var(--bg) 24%);
+          padding-top:12px; padding-bottom:8px; backdrop-filter:blur(4px);
+        }
+      }
+
+      /* generic wrapper + canvas */
+      .canvas-wrap{ background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:var(--pad-card); }
+      canvas{ display:block; border:1px solid #2a2c31; border-radius:12px; margin:0 auto; width:100%; background:transparent; }
+      .canvas-container canvas.lower-canvas{ background:#fff; }
+      .canvas-container canvas.upper-canvas{ background:transparent !important; }
+
+      /* SINGLE source of truth for preview size on mobile/desktop */
+      .canvas-wrap.preview{
+        width:min(92vw, 320px);           /* adjust 320→340 if you want a bit larger */
+        margin-inline:auto;
+        padding:8px;                       /* tighter so hints + canvas fit */
+        box-shadow:0 10px 24px rgba(0,0,0,.35);
+      }
+
+      .hint{ color:var(--muted); font-size:12px; margin-top:6px; }
+      @media (max-width:560px){ .hint{ font-size:11px; } }
+
+      #photo{ position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; } /* hide default input */
     </style>
   </head>
   <body>
@@ -63,7 +87,7 @@
 
         <label for="title">Title</label>
         <input id="title" placeholder="Web Developer, Software Solutions" value="Web Developer, Software Solutions">
-        
+
         <label for="phone">Phone</label>
         <input id="phone" placeholder="(555) 123-4567" value="(555) 123-4567">
 
@@ -71,15 +95,15 @@
         <input id="email" placeholder="example@email.com" value="example@email.com">
 
         <div class="actions" style="margin-top:10px">
-            <div class="row" style="display:grid; gap:8px; grid-template-columns:1fr 1fr; margin-top:10px">
+          <div class="row" style="margin-top:10px">
             <button id="apply">Apply Text</button>
             <button id="download">Download JPEG</button>
-            </div>
+          </div>
 
-            <div class="row" style="margin-top:10px">
+          <div class="row" style="margin-top:10px">
             <button id="openCamera" type="button">Open Camera</button>
             <button id="snap" type="button" disabled>Snap</button>
-            </div>
+          </div>
         </div>
 
         <label for="accentColor" style="margin-top:12px">Accent color</label>
@@ -116,106 +140,84 @@
 
           const canvas = new fabric.Canvas('card', { preserveObjectStacking: true });
 
-          function fitCanvas() {
-            const wrap = document.querySelector('.canvas-wrap');
-            const aspect = H / W; // 1800/1200 = 1.5 (portrait)
+          function fitCanvas(){
+            const wrap = document.querySelector('.canvas-wrap'); // the preview section
+            const aspect = H / W;                                // 1.5 portrait
 
-            // 1) Available width inside the wrapper (already capped by CSS)
-            const maxByWidth = wrap.clientWidth; // e.g., ~360px on mobile
+            // Width: whatever CSS gives the wrapper (capped by .canvas-wrap.preview)
+            const maxByWidth = wrap.clientWidth;
 
-            // 2) Available height in the *visible* viewport
+            // Height: viewport minus wrapper's top, hints, and vertical padding
             const vpH = (window.visualViewport && window.visualViewport.height) || window.innerHeight;
-
-            // Distance from top of viewport to top of the wrapper
             const wrapTop = wrap.getBoundingClientRect().top;
+            const bottomPad = 10;
 
-            // Leave a bit of breathing room at the bottom so nothing is cut off
-            const bottomPad = 12;
+            const hints = wrap.querySelectorAll('.hint');
+            let hintsH = 0; hints.forEach(h => hintsH += h.offsetHeight);
 
-            // Height left for the canvas area (hint + canvas)
-            const maxByHeight = Math.max(120, vpH - wrapTop - bottomPad);
+            const cs = getComputedStyle(wrap);
+            const vPad = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
 
-            // If we sized by that height, how wide could the canvas be?
-            const widthFromHeight = Math.floor(maxByHeight / aspect);
+            const maxCanvasHeight = Math.max(120, vpH - wrapTop - bottomPad - hintsH - vPad);
+            const widthFromHeight = Math.floor(maxCanvasHeight / aspect);
 
-            // Final CSS width/height: obey BOTH constraints to keep it fully visible
             const cssW = Math.max(240, Math.min(maxByWidth, widthFromHeight));
             const cssH = Math.floor(cssW * aspect);
 
-            // ONLY change the CSS size; keep internal pixels at 1200×1800 for crisp export
+            // Preview-only resize; export remains 1200×1800
             canvas.setDimensions({ width: cssW, height: cssH }, { cssOnly: true });
             canvas.calcOffset();
-            }
+          }
 
-            // Run once and on resize/zoom/orientation changes
-            fitCanvas();
-            window.addEventListener('resize', fitCanvas);
-            window.visualViewport && window.visualViewport.addEventListener('resize', fitCanvas);
+          // Run once and on resize/zoom/orientation changes
+          fitCanvas();
+          window.addEventListener('resize', fitCanvas);
+          if (window.visualViewport) window.visualViewport.addEventListener('resize', fitCanvas);
 
-        // Run once and on resize
-        fitCanvas();
-        window.addEventListener('resize', fitCanvas);
-
-          const bg = new fabric.Rect({ left: 0, top: 0, width: W, height: H, fill: '#ffffff', selectable: false, evented: false });
+          // Background + accent
+          const bg = new fabric.Rect({ left:0, top:0, width:W, height:H, fill:'#ffffff', selectable:false, evented:false });
           canvas.add(bg);
 
           const ACCENT_H = Math.round(H * 0.12);
-          const accent = new fabric.Rect({ left: 0, top: H - ACCENT_H, width: W, height: ACCENT_H, fill: '#2E86FF', selectable: false });
+          const accent = new fabric.Rect({ left:0, top:H - ACCENT_H, width:W, height:ACCENT_H, fill:'#2E86FF', selectable:false });
           canvas.add(accent);
           accent.set({ fill: $('accentColor').value || '#2E86FF' });
           canvas.requestRenderAll();
 
-          const SAFE = Math.round(300 / 8);
+          const SAFE = Math.round(300/8);
           const guideSafe = new fabric.Rect({
-            left: SAFE, top: SAFE, width: W - SAFE * 2, height: H - SAFE * 2,
-            fill: 'transparent', stroke: '#ff6b6b', strokeWidth: 2, strokeDashArray: [8, 6],
-            selectable: false, evented: false, visible: false, excludeFromExport: true
+            left: SAFE, top: SAFE, width: W - SAFE*2, height: H - SAFE*2,
+            fill:'transparent', stroke:'#ff6b6b', strokeWidth:2, strokeDashArray:[8,6],
+            selectable:false, evented:false, visible:false, excludeFromExport:true
           });
           canvas.add(guideSafe);
 
           // Text block
           const barTop = H - ACCENT_H;
-
           const nameText = new fabric.Textbox('Fname Lname', {
-            left: PAD, top: barTop + 24, width: W - PAD * 2,
-            fontFamily: 'Inter', fontWeight: 900, fontSize: 56,
-            fill: '#ffffff', shadow: '0px 0px 4px rgba(0,0,0,0.6)'
+            left: PAD, top: barTop + 24, width: W - PAD*2,
+            fontFamily:'Inter', fontWeight:900, fontSize:56,
+            fill:'#ffffff', shadow:'0px 0px 4px rgba(0,0,0,0.6)'
           });
-
           const titleText = new fabric.Textbox('Web Developer, Software Solutions', {
-            left: PAD, top: barTop + 24 + 60, width: W - PAD * 2,
-            fontFamily: 'Inter', fontWeight: 600, fontSize: 30,
-            fill: '#eaf2ff', shadow: '0px 0px 3px rgba(0,0,0,0.5)'
+            left: PAD, top: barTop + 24 + 60, width: W - PAD*2,
+            fontFamily:'Inter', fontWeight:600, fontSize:30,
+            fill:'#eaf2ff', shadow:'0px 0px 3px rgba(0,0,0,0.5)'
           });
-
           const contactText = new fabric.Textbox('(555) 123-4567  •  example@email.com', {
-            left: PAD, top: barTop + 24 + 60 + 42, width: W - PAD * 2,
-            fontFamily: 'Inter', fontWeight: 600, fontSize: 26,
-            fill: '#eaf2ff', shadow: '0px 0px 3px rgba(0,0,0,0.5)'
+            left: PAD, top: barTop + 24 + 60 + 42, width: W - PAD*2,
+            fontFamily:'Inter', fontWeight:600, fontSize:26,
+            fill:'#eaf2ff', shadow:'0px 0px 3px rgba(0,0,0,0.5)'
           });
 
           canvas.add(nameText, titleText, contactText);
+          [nameText, titleText, contactText].forEach(t => { t.lockScalingFlip = true; t.lockRotation = true; });
 
-          [nameText, titleText, contactText].forEach(t => {
-            t.lockScalingFlip = true;
-            t.lockRotation = true;
-          });
-
-          if (document.fonts && document.fonts.ready) {
-            document.fonts.ready.then(() => canvas.requestRenderAll());
-          }
+          if (document.fonts && document.fonts.ready) { document.fonts.ready.then(() => canvas.requestRenderAll()); }
 
           // Controls
-          $('accentColor').addEventListener('input', (e) => {
-            accent.set({ fill: e.target.value });
-            canvas.requestRenderAll();
-          });
-
-          $('showGuides').addEventListener('change', (e) => {
-            guideSafe.visible = e.target.checked;
-            if (guideSafe.visible) canvas.bringToFront(guideSafe);
-            canvas.requestRenderAll();
-          });
+          $('accentColor').addEventListener('input', (e) => { accent.set({ fill: e.target.value }); canvas.requestRenderAll(); });
+          $('showGuides').addEventListener('change', (e) => { guideSafe.visible = e.target.checked; if (guideSafe.visible) canvas.bringToFront(guideSafe); canvas.requestRenderAll(); });
 
           document.getElementById('apply').addEventListener('click', () => {
             nameText.text = $('name').value || '';
@@ -224,84 +226,63 @@
             canvas.requestRenderAll();
           });
 
-          // Export
-          async function exportAndShareOrDownload() {
-            const dataUrl = canvas.toDataURL({ format: 'jpeg', quality: 0.95, multiplier: 2 });
-            try {
+          // Export (keeps 1200×1800)
+          async function exportAndShareOrDownload(){
+            const dataUrl = canvas.toDataURL({ format:'jpeg', quality:0.95, multiplier:2 });
+            try{
               const res = await fetch(dataUrl);
               const blob = await res.blob();
-              const file = new File([blob], 'business-card.jpg', { type: 'image/jpeg' });
-
-              if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                await navigator.share({ files: [file], title: 'Business Card', text: 'Made at the mixer' });
+              const file = new File([blob], 'business-card.jpg', { type:'image/jpeg' });
+              if (navigator.canShare && navigator.canShare({ files:[file] })){
+                await navigator.share({ files:[file], title:'Business Card', text:'Made at the mixer' });
                 return;
               }
-            } catch (err) {
+            }catch(err){
               console.log('Share unavailable, downloading instead:', err);
             }
             const a = document.createElement('a');
-            a.href = dataUrl;
-            a.download = 'business-card.jpg';
-            a.click();
+            a.href = dataUrl; a.download = 'business-card.jpg'; a.click();
           }
-
           document.getElementById('download').addEventListener('click', exportAndShareOrDownload);
 
-          // Photo Frame
-          // Frame = full safe area above the accent bar
+          // Photo frame
           const FRAME = (() => {
-            const LEFT   = SAFE;
-            const RIGHT  = W - SAFE;
-            const TOP    = SAFE;
-            const BOTTOM = barTop - SAFE;
-            const w = RIGHT - LEFT;
-            const h = BOTTOM - TOP;
+            const LEFT = SAFE, RIGHT = W - SAFE, TOP = SAFE, BOTTOM = barTop - SAFE;
+            const w = RIGHT - LEFT, h = BOTTOM - TOP;
             return { x: LEFT, y: TOP, w, h, cx: LEFT + w/2, cy: TOP + h/2 };
           })();
 
           let photoObj = null;
           const coverScale = (imgW, imgH, maxW, maxH) => Math.max(maxW / imgW, maxH / imgH);
 
-          function placeSelfie(file) {
+          function placeSelfie(file){
             const objectUrl = URL.createObjectURL(file);
             fabric.Image.fromURL(objectUrl, (img) => {
               URL.revokeObjectURL(objectUrl);
-
               const s = coverScale(img.width, img.height, FRAME.w, FRAME.h);
               img.set({
-                originX: 'center', originY: 'center',
-                left: FRAME.cx, top: FRAME.cy,
-                scaleX: s, scaleY: s,
-                lockRotation: true, transparentCorners: false, cornerStyle: 'circle'
+                originX:'center', originY:'center',
+                left:FRAME.cx, top:FRAME.cy,
+                scaleX:s, scaleY:s,
+                lockRotation:true, transparentCorners:false, cornerStyle:'circle'
               });
-
               img.lockUniScaling = true;
               img.on('scaling', () => { img.scaleY = img.scaleX; });
 
               img.clipPath = new fabric.Rect({
-                left: FRAME.cx, top: FRAME.cy,
-                originX: 'center', originY: 'center',
-                width: FRAME.w, height: FRAME.h,
-                rx: 24, ry: 24, absolutePositioned: true
+                left:FRAME.cx, top:FRAME.cy, originX:'center', originY:'center',
+                width:FRAME.w, height:FRAME.h, rx:24, ry:24, absolutePositioned:true
               });
 
               img.setCoords();
-
               if (photoObj) canvas.remove(photoObj);
               photoObj = img;
               canvas.add(img);
-
-              canvas.bringToFront(nameText);
-              canvas.bringToFront(titleText);
-              canvas.bringToFront(contactText);
-
+              canvas.bringToFront(nameText); canvas.bringToFront(titleText); canvas.bringToFront(contactText);
               canvas.requestRenderAll();
 
-              // Auto-export if toggled
-              if ($('quickSave') && $('quickSave').checked) {
-                exportAndShareOrDownload();
-              }
-            }, { crossOrigin: 'anonymous' });
+              if ($('quickSave') && $('quickSave').checked) exportAndShareOrDownload();
+            }, { crossOrigin:'anonymous' });
           }
 
           $('photo').addEventListener('change', (e) => {
@@ -310,21 +291,16 @@
             placeSelfie(file);
           });
 
-          // Using Camera instead of gallery
+          // Camera
           let stream = null;
-          const camWrap = $('camWrap');
-          const cam = $('cam');
-          const openBtn = $('openCamera');
-          const snapBtn = $('snap');
+          const camWrap = $('camWrap'), cam = $('cam'), openBtn = $('openCamera'), snapBtn = $('snap');
 
           openBtn.addEventListener('click', async () => {
-            try {
-              stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
-              cam.srcObject = stream;
-              await cam.play();
-              camWrap.style.display = 'block';
-              snapBtn.disabled = false;
-            } catch (err) {
+            try{
+              stream = await navigator.mediaDevices.getUserMedia({ video:{ facingMode:'environment' }, audio:false });
+              cam.srcObject = stream; await cam.play();
+              camWrap.style.display = 'block'; snapBtn.disabled = false;
+            }catch(err){
               console.error('Camera error:', err);
               alert('Could not open camera. You can still use Upload Selfie.');
             }
@@ -332,35 +308,25 @@
 
           snapBtn.addEventListener('click', async () => {
             if (!cam.videoWidth) return;
-
             const off = document.createElement('canvas');
-            off.width = cam.videoWidth;
-            off.height = cam.videoHeight;
-            const octx = off.getContext('2d');
-            octx.drawImage(cam, 0, 0);
-
+            off.width = cam.videoWidth; off.height = cam.videoHeight;
+            off.getContext('2d').drawImage(cam,0,0);
             off.toBlob((blob) => {
               if (!blob) return;
-              const f = new File([blob], 'snapshot.jpg', { type: 'image/jpeg' });
+              const f = new File([blob], 'snapshot.jpg', { type:'image/jpeg' });
               placeSelfie(f);
             }, 'image/jpeg', 0.92);
 
-            // Stop camera after snapping
-            if (stream) {
+            if (stream){
               stream.getTracks().forEach(t => t.stop());
-              stream = null;
-              camWrap.style.display = 'none';
-              snapBtn.disabled = true;
+              stream = null; camWrap.style.display = 'none'; snapBtn.disabled = true;
             }
           });
 
-          // Stop camera when page hides
           document.addEventListener('visibilitychange', () => {
-            if (document.hidden && stream) {
+            if (document.hidden && stream){
               stream.getTracks().forEach(t => t.stop());
-              stream = null;
-              camWrap.style.display = 'none';
-              snapBtn.disabled = true;
+              stream = null; camWrap.style.display = 'none'; snapBtn.disabled = true;
             }
           });
         });
