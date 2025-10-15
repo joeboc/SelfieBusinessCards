@@ -105,7 +105,8 @@
             <button id="openCamera" type="button">Open Camera</button>
             <button id="flip" type="button" disabled>Flip</button>
             <button id="snap" type="button" disabled>Snap</button>
-          </div>
+            <button id="closeCam" type="button" disabled>Close Camera</button>
+         </div>
         </div>
 
         <label for="accentColor" style="margin-top:12px">Accent color</label>
@@ -173,7 +174,7 @@
             // Height taken by hints + wrapper padding
             const hints = wrap.querySelectorAll('.hint');
             let hintsH = 0; hints.forEach(h => hintsH += h.offsetHeight);
-            const cs = getComputedStyle(wrap);
+            const cs = getCoepncaomputedStyle(wrap);
             const vPad = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
 
             const maxCanvasHeight = Math.max(120, vpH - wrapTop - bottomPad - hintsH - vPad);
